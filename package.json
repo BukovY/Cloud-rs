@@ -17,8 +17,8 @@
     "client:build:deploy:nc": "npm run build && npm run client:deploy:nc",
     "cloudfront:setup": "sls deploy",
     "cloudfront:domainInfo": "sls domainInfo",
-    "cloudfront:invalidateCache": "sls invalidateCloudFrontCache",
     "cloudfront:build:deploy": "npm run client:build:deploy && npm run cloudfront:invalidateCache",
+    "cloudfront:invalidateCache": "sls invalidateCloudFrontCache",
     "cloudfront:build:deploy:nc": "npm run client:build:deploy:nc && npm run cloudfront:invalidateCache",
     "cloudfront:update:build:deploy": "npm run cloudfront:setup && npm run cloudfront:build:deploy",
     "cloudfront:update:build:deploy:nc": "npm run cloudfront:setup && npm run cloudfront:build:deploy:nc",
@@ -29,7 +29,6 @@
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",
-    "@mui/styles": "^5.8.7",
     "@types/yup": "^0.29.14",
     "axios": "^0.27.2",
     "formik": "^2.2.9",
@@ -37,6 +36,7 @@
     "react-dom": "^18.2.0",
     "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0",
+    "serverless-single-page-app-plugin": "^1.0.4",
     "yup": "^0.32.11"
   },
   "devDependencies": {
