@@ -8,10 +8,9 @@ export function useAvailableProducts() {
   return useQuery<AvailableProduct[], AxiosError>(
     "available-products",
     async () => {
-      const res = await axios.get<AvailableProduct[]>(
-        `${API_PATHS.bff}/product/available`
-      );
-      return res.data;
+      return await axios.get<{data:AvailableProduct[]}>(
+        `${API_PATHS.bff}/product`
+      ).then((response) => response.data.data);
     }
   );
 }
