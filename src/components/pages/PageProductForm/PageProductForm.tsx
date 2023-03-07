@@ -21,7 +21,7 @@ export default function PageProductForm() {
   const invalidateAvailableProducts = useInvalidateAvailableProducts();
   const removeProductCache = useRemoveProductCache();
   const { data, isLoading } = useAvailableProduct(id);
-  const { mutateAsync: upsertAvailableProduct } = useUpsertAvailableProduct();
+  const { mutateAsync: upsertAvailableProduct } = useUpsertAvailableProduct(id);
   const onSubmit = (values: AvailableProduct) => {
     const formattedValues = AvailableProductSchema.cast(values);
     const productToSave = id
@@ -30,6 +30,7 @@ export default function PageProductForm() {
           id,
         }
       : formattedValues;
+    delete productToSave.id;
     return upsertAvailableProduct(productToSave, {
       onSuccess: () => {
         invalidateAvailableProducts();
@@ -60,6 +61,16 @@ export default function PageProductForm() {
                     component={TextField}
                     name="title"
                     label="Title"
+                    fullWidth
+                    autoComplete="off"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    component={TextField}
+                    name="cover"
+                    label="Cover"
                     fullWidth
                     autoComplete="off"
                     required

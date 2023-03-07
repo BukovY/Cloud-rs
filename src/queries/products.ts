@@ -8,9 +8,9 @@ export function useAvailableProducts() {
   return useQuery<AvailableProduct[], AxiosError>(
     "available-products",
     async () => {
-      return await axios.get<{data:AvailableProduct[]}>(
-        `${API_PATHS.bff}/product`
-      ).then((response) => response.data.data);
+      return await axios
+        .get<{ data: AvailableProduct[] }>(`${API_PATHS.bff}/product`)
+        .then((response) => response.data.data);
     }
   );
 }
@@ -23,15 +23,17 @@ export function useInvalidateAvailableProducts() {
   );
 }
 
+export const fetchAvailableProductById = async (id: string) => {
+  const res = await axios.get<{ data: AvailableProduct }>(
+    `${API_PATHS.bff}/product/${id}`
+  );
+  return res.data.data;
+};
+
 export function useAvailableProduct(id?: string) {
-  return useQuery<AvailableProduct, AxiosError>(
+  return useQuery<AvailableProduct | undefined, AxiosError>(
     ["product", { id }],
-    async () => {
-      const res = await axios.get<AvailableProduct>(
-        `${API_PATHS.bff}/product/${id}`
-      );
-      return res.data;
-    },
+    async () => (id ? await fetchAvailableProductById(id) : undefined),
     { enabled: !!id }
   );
 }
@@ -45,22 +47,34 @@ export function useRemoveProductCache() {
   );
 }
 
-export function useUpsertAvailableProduct() {
-  return useMutation((values: AvailableProduct) =>
-    axios.put<AvailableProduct>(`${API_PATHS.bff}/product`, values, {
-      headers: {
-        Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
-      },
-    })
-  );
+export function useUpsertAvailableProduct(id?: string) {
+  return useMutation((values: AvailableProduct) => {
+    if(!id) {
+      return axios.post<AvailableProduct>(
+          `${API_PATHS.bff}/product`,
+          values,
+          {
+            headers: {
+              "Content-type": "aplication/json",
+            },
+          }
+      );
+    }
+    return axios.put<AvailableProduct>(
+      `${API_PATHS.bff}/product/${id}`,
+      values,
+      {
+        headers: {
+          "Content-type": "aplication/json",
+        },
+      }
+    );
+  });
 }
 
 export function useDeleteAvailableProduct() {
   return useMutation((id: string) =>
-    axios.delete(`${API_PATHS.bff}/product/${id}`, {
-      headers: {
-        Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
-      },
-    })
+
+    axios.delete(`${API_PATHS.bff}/product/${id}`)
   );
 }
