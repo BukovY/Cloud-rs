@@ -18,7 +18,7 @@ test("Renders products list", async () => {
       description: "Product 1 description",
       price: 1,
       count: 1,
-      cover: '',
+      cover: "",
     },
     {
       id: "2",
@@ -26,7 +26,7 @@ test("Renders products list", async () => {
       description: "Product 2 description",
       price: 2,
       count: 2,
-      cover: '',
+      cover: "",
     },
   ];
   server.use(
